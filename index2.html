@@ -1,0 +1,52 @@
+<html>
+<head>
+    <script language="javascript" type="text/javascript">
+        function pinclude(content,id){
+        var newdiv = document.createElement("div");
+        newdiv.innerHTML = content;
+        remove(id);
+        document.getElementById(id).appendChild(newdiv);
+        }
+
+        function remove(id)
+        {
+        while(document.getElementById(id).firstChild)
+        {document.getElementById(id).removeChild(document.getElementById(id).firstChild);}
+        }
+        
+        function getFields(){
+            var xmlhttp;
+            if (window.XMLHttpRequest)
+             {// code for IE7+, Firefox, Chrome, Opera, Safari
+                xmlhttp=new XMLHttpRequest();
+             }
+            else
+             {// code for IE6, IE5
+                xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+             }
+            xmlhttp.open("GET","getfields.php",true);
+            xmlhttp.send();
+            xmlhttp.onreadystatechange=function(){
+                if (xmlhttp.readyState==4 && xmlhttp.status==200){
+                    //document.getElementById("FormArea").innerHTML=xmlhttp.responseText;
+                    var returnpage=xmlhttp.responseText;
+                    dhead=document.getElementsByTagName("head");
+                    dhead.appendChild(returnpage.getElementsByTagName("head").getElementsByTagName("scripts"));
+                    //document.getElementsByTagName("head")[0].appendChild(script);
+                    //document.write('<div style="display:none">');
+                    //document.write('<div>');
+                    //document.write(returnpage);
+                    //document.write('<\/div>');
+                    //remove("FormArea");
+                    //pinclude(returnpage, "FormArea");
+                    document.getElementById("FormArea").innerHTML=returnpage;
+                }
+            }
+        }
+    </script>
+</head>
+<body>
+    <input type="button" value="get form" onclick="getFields()"/><br/>
+    <div id="FormArea"></div>
+</body>
+</html>
